@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
 <body>
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
@@ -63,13 +63,53 @@
             <th>Column 2</th>
             <th>Column 3</th>
             <!-- Add more column headers if needed -->
-          </tr>
+          <!-- </tr>
         </thead>
         <tbody id="table">
           <!-- Data rows will be dynamically added here -->
-        </tbody>
+        <!-- </tbody>
       </table>
 </body>
 
 
+</html> --> 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Request</title>
+</head>
+<body>
+
+<!-- The element where the response will be displayed -->
+<div id="output"></div>
+
+<script>
+  // Function to make a request and print the response
+  function makeRequest() {
+    // Replace the URL with the actual API endpoint or URL you want to request
+    const url = 'https://jsonplaceholder.typicode.com/posts/1';
+
+    // Using the fetch API
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        // Display the data in the 'output' div
+        document.getElementById('output').innerHTML = JSON.stringify(data, null, 2);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Display an error message in the 'output' div
+        document.getElementById('output').innerHTML = 'Error occurred while making the request.';
+      });
+  }
+
+  // Call the function when the page loads
+  makeRequest();
+</script>
+
+</body>
 </html>
