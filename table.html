@@ -43,8 +43,17 @@
           for (var i = 1; i < rows.length; i++) {
             var cells = rows[i].split(",");
             var rowHtml = cells.map(cell => `<td>${cell}</td>`).join('');
-            $('#tableBody').append(`<tr>${rowHtml}</tr>`);
+            var submitButton = `<td><button class="btn btn-success submit-btn">Submit</button></td>`;
+            $('#tableBody').append(`<tr>${rowHtml}${submitButton}</tr>`);
           }
+          
+          // Attach click event to submit buttons
+          $('.submit-btn').click(function() {
+            // Implement your data submission logic here
+            // You can use the data in the respective row for submission
+            // For example, you can access data using $(this).closest('tr').find('td').eq(index).text()
+            alert("Submit button clicked for row: " + $(this).closest('tr').index());
+          });
         },
         error: function (err) {
           console.log(err.status);
