@@ -7,32 +7,49 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   </head>
   <body>
-    <div id=”data_goes_here”>
-      <!-- Perfect place to put the data -->
-
+    <div class="container mt-4">
+      <h2>Data from Google Sheets</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr id="tableHeaders">
+            <!-- Table headers will be added dynamically using JavaScript -->
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Table content will be added dynamically using JavaScript -->
+        </tbody>
+      </table>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script >
-      var url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtVE3wFHFHRubyGYlxrMOB3o8qTBjpPPqXiVLTFUUAYdQ2ZIrqOmKATFUMYXpHagOgn8EnbOSXuM9B/pub?gid=0&single=true&output=csv" ;
-      // <DOCUMENTID> is the id of the spreadsheet that you want to get data from
+    <script>
+      var url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtVE3wFHFHRubyGYlxrMOB3o8qTBjpPPqXiVLTFUUAYdQ2ZIrqOmKATFUMYXpHagOgn8EnbOSXuM9B/pub?gid=0&single=true&output=csv";
+      
       $.ajax({
         url: url,
         success: function (data) {
-          // this is where you can do what you want with the data
-          // for example, make buttons
-          $('#data_goes_here').html(''); // clear the
-          var item = data.split("\n");
-          $.each(item, function (i, ioo) {
-            var btn_array = ioo.split(",");
-            var button = '<a class="btn btn-primary" href="' + btn_array[1] + '">' + btn_array[0] + '';
-            $('#data_goes_here').append(button);
-          });
+          // Split the data into rows
+          var rows = data.split("\n");
+          
+          // Extract headers from the first row
+          var headers = rows[0].split(",");
+          
+          // Add table headers dynamically
+          $('#tableHeaders').html(headers.map(header => `<th>${header}</th>`).join(''));
+
+          // Add table rows dynamically
+          for (var i = 1; i < rows.length; i++) {
+            var cells = rows[i].split(",");
+            var rowHtml = cells.map(cell => `<td>${cell}</td>`).join('');
+            $('#tableBody').append(`<tr>${rowHtml}</tr>`);
+          }
         },
         error: function (err) {
           console.log(err.status);
         }
-      });</script>
+      });
+    </script>
   </body>
 </html>
