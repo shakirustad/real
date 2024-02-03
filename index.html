@@ -369,11 +369,14 @@ Author URL: http://w3layouts.com
             url: url,
             success: function (data) {
               var rows = data.split("\n");
-              
+        
               // Start from index 1 to skip header row
               for (var i = 1; i < rows.length; i++) {
                 var rowData = rows[i];
                 var cells = rowData.split(",");
+        
+                // Exclude the last column ("Price")
+                cells.pop();
         
                 // Dynamically create HTML for each property
                 var propertyHtml = `
@@ -394,7 +397,7 @@ Author URL: http://w3layouts.com
                     </div>
                   </div>
                 `;
-                
+        
                 // Append property HTML to the "Properties for Sale" section
                 $('#propertiesForSale').append(propertyHtml);
               }
@@ -404,6 +407,7 @@ Author URL: http://w3layouts.com
             }
           });
         </script>
+        
         
 </section>
 <section class="w3l-apply-6">
