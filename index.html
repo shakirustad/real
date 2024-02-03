@@ -367,20 +367,26 @@ Author URL: http://w3layouts.com
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script>
     var url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtVE3wFHFHRubyGYlxrMOB3o8qTBjpPPqXiVLTFUUAYdQ2ZIrqOmKATFUMYXpHagOgn8EnbOSXuM9B/pub?output=tsv";
-
+  
     $.ajax({
       url: url,
       success: function (data) {
         var rows = data.split("\n");
-
+  
         // Start from index 1 to skip header row
         for (var i = 1; i < rows.length; i++) {
           var rowData = rows[i];
           var cells = rowData.split("\t"); // Use "\t" as the delimiter for TSV
-
+  
+          // Log cells to console for debugging
+          console.log("Cells:", cells);
+  
           // Extract the price without ignoring commas
           var price = cells[4];
-
+  
+          // Log price to console for debugging
+          console.log("Price:", price);
+  
           // Dynamically create HTML for each property
           var propertyHtml = `
             <div class="grids4-info col-lg-4 col-md-6 mt-5">
@@ -400,7 +406,7 @@ Author URL: http://w3layouts.com
               </div>
             </div>
           `;
-
+  
           // Append property HTML to the "Properties for Sale" section
           $('#propertiesForSale').append(propertyHtml);
         }
@@ -410,6 +416,7 @@ Author URL: http://w3layouts.com
       }
     });
   </script>
+  
 </section>
 
 <section class="w3l-apply-6">
