@@ -80,35 +80,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Request</title>
+  <title>Google Sheets Data</title>
 </head>
 <body>
 
-<!-- The element where the response will be displayed -->
-<div id="output"></div>
+<!-- The element where the sheet data will be displayed -->
+<div id="sheetData"></div>
 
 <script>
-  // Function to make a request and print the response
-  function makeRequest() {
-    // Replace the URL with the actual API endpoint or URL you want to request
-    const url = 'https://jsonplaceholder.typicode.com/posts/1';
+  // Replace 'YOUR_API_KEY' and 'YOUR_SHEET_ID' with your actual API key and sheet ID
+  const apiKey = 'YOUR_API_KEY';
+  const sheetId = 'YOUR_SHEET_ID';
+  const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1?key=${apiKey}`;
 
-    // Using the fetch API
-    fetch(url)
+  // Function to fetch data from Google Sheets and display it
+  function fetchGoogleSheetData() {
+    fetch(apiUrl)
       .then(response => response.json())
       .then(data => {
-        // Display the data in the 'output' div
-        document.getElementById('output').innerHTML = JSON.stringify(data, null, 2);
+        // Display the sheet data in the 'sheetData' div
+        const sheetValues = data.values;
+        const outputDiv = document.getElementById('sheetData');
+
+        if (sheetValues && sheetValues.length > 0) {
+          // Assuming the sheet data is an array of arrays
+          const htmlTable = '<table border="1">' +
+            sheetValues.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('') +
+            '</table>';
+          
+          outputDiv.innerHTML = htmlTable;
+        } else {
+          outputDiv.innerHTML = 'No data available.';
+        }
       })
       .catch(error => {
         console.error('Error:', error);
-        // Display an error message in the 'output' div
-        document.getElementById('output').innerHTML = 'Error occurred while making the request.';
+        // Display an error message in the 'sheetData' div
+        document.getElementById('sheetData').innerHTML = 'Error occurred while fetching data.';
       });
   }
 
   // Call the function when the page loads
-  makeRequest();
+  fetchGoogleSheetData();
 </script>
 
 </body>
