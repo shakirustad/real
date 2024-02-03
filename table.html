@@ -88,10 +88,16 @@
 <div id="sheetData"></div>
 
 <script>
-  // Replace 'YOUR_API_KEY' and 'YOUR_SHEET_ID' with your actual API key and sheet ID
-  const apiKey = 'YOUR_API_KEY';
-  const sheetId = 'YOUR_SHEET_ID';
-  const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1?key=${apiKey}`;
+  // Client ID and API key from the client secret JSON file
+  const CLIENT_ID = '1079662420040-kavoblk8lpv6759i64i24bn2qg9mm9e9.apps.googleusercontent.com';
+  const API_KEY = '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';
+  
+  // ID of the Google Sheets document and the sheet you want to fetch data from
+  const SPREADSHEET_ID = '1UgfxP6fzBKvrA0ZXxZiA_Iua7Ku5P3OWe6CtHySnACU';
+  const SHEET_NAME = 'sheet_1';
+
+  // Construct the API URL with the provided details
+  const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
 
   // Function to fetch data from Google Sheets and display it
   function fetchGoogleSheetData() {
