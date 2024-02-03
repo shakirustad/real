@@ -1,134 +1,38 @@
-<!-- <html>
-<body>
-    <script src="https://apis.google.com/js/api.js"></script>
-    <script src="https://apis.google.com/js/client.js?onload=init"></script>
-
-    <script>
-        // Client ID and API key from the client secret JSON file
-        const CLIENT_ID = '1079662420040-kavoblk8lpv6759i64i24bn2qg9mm9e9.apps.googleusercontent.com';
-        const API_KEY = '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';
-        
-        // ID of the Google Sheets document and the sheet you want to fetch data from
-        const SPREADSHEET_ID = '1UgfxP6fzBKvrA0ZXxZiA_Iua7Ku5P3OWe6CtHySnACU';
-        const SHEET_NAME = 'sheet_1';
-        
-        // Load the Google Sheets API
-        function init() {
-          gapi.client.init({
-            apiKey: API_KEY,
-            clientId: CLIENT_ID,
-            discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-            scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
-          }).then(function() {
-            // Fetch sheet data and populate the HTML
-            fetchSheetData();
-          }, function(error) {
-            console.error('Error loading Google Sheets API:', error);
-          });
-        }
-        
-        // Fetch sheet data and populate the HTML
-        function fetchSheetData() {
-          gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: SPREADSHEET_ID,
-            range: SHEET_NAME,
-          }).then(function(response) {
-            const values = response.result.values;
-            const table = document.getElementById('table');
-        
-            if (values && values.length > 0) {
-              values.forEach(function(row) {
-                 const tr = document.createElement('tr');
-        
-                 row.forEach(function(cell) {
-                   const td = document.createElement('td');
-                   td.textContent = cell;
-                   tr.appendChild(td);
-                 });
-        
-                 table.appendChild(tr);
-              });
-            } else {
-              console.log('No data found in the sheet.');
-            }
-          }, function(error) {
-            console.error('Error fetching sheet data:', error);
-          });
-        }
-        </script>
-    <table>
-        <thead>
-          <tr>
-            <th>Column 1</th>
-            <th>Column 2</th>
-            <th>Column 3</th>
-            <!-- Add more column headers if needed -->
-          <!-- </tr>
-        </thead>
-        <tbody id="table">
-          <!-- Data rows will be dynamically added here -->
-        <!-- </tbody>
-      </table>
-</body>
-
-
-</html> --> 
-
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Sheets Data</title>
-</head>
-<body>
+<html>
+  <head>
+    <title>Google Spreadsheet as Data with AJAX</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div id=”data_goes_here”>
+      <!-- Perfect place to put the data -->
 
-<!-- The element where the sheet data will be displayed -->
-<div id="sheetData"></div>
-
-<script>
-  // Client ID and API key from the client secret JSON file
-  const CLIENT_ID = '1079662420040-kavoblk8lpv6759i64i24bn2qg9mm9e9.apps.googleusercontent.com';
-  const API_KEY = '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';
-  
-  // ID of the Google Sheets document and the sheet you want to fetch data from
-  const SPREADSHEET_ID = '1UgfxP6fzBKvrA0ZXxZiA_Iua7Ku5P3OWe6CtHySnACU';
-  const SHEET_NAME = 'sheet_1';
-
-  // Construct the API URL with the provided details
-  const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
-
-  // Function to fetch data from Google Sheets and display it
-  function fetchGoogleSheetData() {
-    fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-        // Display the sheet data in the 'sheetData' div
-        const sheetValues = data.values;
-        const outputDiv = document.getElementById('sheetData');
-
-        if (sheetValues && sheetValues.length > 0) {
-          // Assuming the sheet data is an array of arrays
-          const htmlTable = '<table border="1">' +
-            sheetValues.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('') +
-            '</table>';
-          
-          outputDiv.innerHTML = htmlTable;
-        } else {
-          outputDiv.innerHTML = 'No data availableddddddddddddddddddddddd.';
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script >
+      var url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtVE3wFHFHRubyGYlxrMOB3o8qTBjpPPqXiVLTFUUAYdQ2ZIrqOmKATFUMYXpHagOgn8EnbOSXuM9B/pub?gid=0&single=true&output=csv" ;
+      // <DOCUMENTID> is the id of the spreadsheet that you want to get data from
+      $.ajax({
+        url: url,
+        success: function (data) {
+          // this is where you can do what you want with the data
+          // for example, make buttons
+          $('#data_goes_here').html(''); // clear the
+          var item = data.split("\n");
+          $.each(item, function (i, ioo) {
+            var btn_array = ioo.split(",");
+            var button = '<a class="btn btn-primary" href="' + btn_array[1] + '">' + btn_array[0] + '';
+            $('#data_goes_here').append(button);
+          });
+        },
+        error: function (err) {
+          console.log(err.status);
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        // Display an error message in the 'sheetData' div
-        document.getElementById('sheetData').innerHTML = 'Error occurred while fetching data.';
-      });
-  }
-
-  // Call the function when the page loads
-  fetchGoogleSheetData();
-</script>
-
-</body>
+      });</script>
+  </body>
 </html>
