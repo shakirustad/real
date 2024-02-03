@@ -378,6 +378,9 @@ Author URL: http://w3layouts.com
                 // Exclude the last column ("Price")
                 cells.pop();
         
+                // Format the price with commas for currency
+                var formattedPrice = parseFloat(cells[4]).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        
                 // Dynamically create HTML for each property
                 var propertyHtml = `
                   <div class="grids4-info col-lg-4 col-md-6 mt-5">
@@ -388,7 +391,7 @@ Author URL: http://w3layouts.com
                     </ul>
                     <div class="info-bg">
                       <h5><a href="#">${cells[3]}</a></h5>
-                      <p>${cells[4]}</p>
+                      <p>${formattedPrice}</p>
                       <ul>
                         <li><span class="fa fa-bed"></span> ${cells[5]} Beds</li>
                         <li><span class="fa fa-bath"></span> ${cells[6]} Baths</li>
@@ -407,6 +410,7 @@ Author URL: http://w3layouts.com
             }
           });
         </script>
+        
         
         
 </section>
