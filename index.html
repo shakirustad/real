@@ -353,62 +353,57 @@ Author URL: http://w3layouts.com
        <div class="container py-md-3">
 			<div class="heading text-center mx-auto">
         <h3 class="head">Properties For Sale</h3>
-<p class="my-3 head">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla mollis dapibus nunc, ut rhoncus turpis sodales quis. Integer sit amet mattis quam.</p>
-
-<div class="row mt-5 pt-3" id="propertiesForSale">
-  <!-- Data will be dynamically added here -->
-</div>
-
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script>
-  var url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtVE3wFHFHRubyGYlxrMOB3o8qTBjpPPqXiVLTFUUAYdQ2ZIrqOmKATFUMYXpHagOgn8EnbOSXuM9B/pub?gid=1721185827&single=true&output=csv";
-
-  $.ajax({
-    url: url,
-    success: function (data) {
-      var rows = data.split("\n");
-      
-      // Start from index 1 to skip header row
-      for (var i = 1; i < rows.length; i++) {
-        // Replace commas within the price values
-        var rowData = rows[i].replace(/(\$\s*\d+,\d+)\s*/g, function(match) {
-          return match.replace(/,/g, ''); // Remove commas within the price
-        });
-
-        var cells = rowData.split(",");
+        <p class="my-3 head">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla mollis dapibus nunc, ut rhoncus turpis sodales quis. Integer sit amet mattis quam.</p>
         
-        // Dynamically create HTML for each property
-        var propertyHtml = `
-          <div class="grids4-info col-lg-4 col-md-6 mt-5">
-            <a href="#"><img src="${cells[0]}" class="img-fluid" alt=""></a>
-            <ul class="location-top">
-              <li class="${cells[1].toLowerCase()}">${cells[2]}</li>
-              <li class="open-1">Open House</li>
-            </ul>
-            <div class="info-bg">
-              <h5><a href="#">${cells[3]}</a></h5>
-              <p>$ ${cells[4]}</p>
-              <ul>
-                <li><span class="fa fa-bed"></span> ${cells[5]} Beds</li>
-                <li><span class="fa fa-bath"></span> ${cells[6]} Baths</li>
-                <li><span class="fa fa-share-square-o"></span> ${cells[7]} sq ft</li>
-              </ul>
-            </div>
-          </div>
-        `;
+        <div class="row mt-5 pt-3" id="propertiesForSale">
+          <!-- Data will be dynamically added here -->
+        </div>
         
-        // Append property HTML to the "Properties for Sale" section
-        $('#propertiesForSale').append(propertyHtml);
-      }
-    },
-    error: function (err) {
-      console.log(err.status);
-    }
-  });
-</script>
-
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script>
+          var url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtVE3wFHFHRubyGYlxrMOB3o8qTBjpPPqXiVLTFUUAYdQ2ZIrqOmKATFUMYXpHagOgn8EnbOSXuM9B/pub?gid=1721185827&single=true&output=csv";
+        
+          $.ajax({
+            url: url,
+            success: function (data) {
+              var rows = data.split("\n");
+              
+              // Start from index 1 to skip header row
+              for (var i = 1; i < rows.length; i++) {
+                var rowData = rows[i];
+                var cells = rowData.split(",");
+        
+                // Dynamically create HTML for each property
+                var propertyHtml = `
+                  <div class="grids4-info col-lg-4 col-md-6 mt-5">
+                    <a href="#"><img src="${cells[0]}" class="img-fluid" alt=""></a>
+                    <ul class="location-top">
+                      <li class="${cells[1].toLowerCase()}">${cells[2]}</li>
+                      <li class="open-1">Open House</li>
+                    </ul>
+                    <div class="info-bg">
+                      <h5><a href="#">${cells[3]}</a></h5>
+                      <p>${cells[4]}</p>
+                      <ul>
+                        <li><span class="fa fa-bed"></span> ${cells[5]} Beds</li>
+                        <li><span class="fa fa-bath"></span> ${cells[6]} Baths</li>
+                        <li><span class="fa fa-share-square-o"></span> ${cells[7]} sq ft</li>
+                      </ul>
+                    </div>
+                  </div>
+                `;
+                
+                // Append property HTML to the "Properties for Sale" section
+                $('#propertiesForSale').append(propertyHtml);
+              }
+            },
+            error: function (err) {
+              console.log(err.status);
+            }
+          });
+        </script>
         
 </section>
 <section class="w3l-apply-6">
