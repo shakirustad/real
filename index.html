@@ -353,8 +353,6 @@ Author URL: http://w3layouts.com
        <div class="container py-md-3">
 			<div class="heading text-center mx-auto">
         <h3 class="head">Properties For Sale</h3>
-        <p class="my-3 head">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla mollis dapibus nunc, ut rhoncus turpis sodales quis. Integer sit amet mattis quam.</p>
-        
         <div class="row mt-5 pt-3" id="propertiesForSale">
           <!-- Data will be dynamically added here -->
         </div>
@@ -371,7 +369,7 @@ Author URL: http://w3layouts.com
               var rows = data.split("\n");
         
               // Start from index 1 to skip header row
-              for (var i = 1; i < rows.length; i++) {
+              for (var i = 1; i < Math.min(6, rows.length); i++) { // Display only 5 properties
                 var rowData = rows[i];
                 var cells = rowData.split(",");
         
@@ -404,12 +402,55 @@ Author URL: http://w3layouts.com
                 // Append property HTML to the "Properties for Sale" section
                 $('#propertiesForSale').append(propertyHtml);
               }
+        
+              // Add View More button
+              if (rows.length > 6) {
+                var viewMoreButton = `<button id="viewMoreBtn" class="btn btn-primary mt-3">View More</button>`;
+                $('#propertiesForSale').append(viewMoreButton);
+        
+                // Handle click event for View More button
+                $('#viewMoreBtn').on('click', function () {
+                  // Show additional properties (next 5)
+                  for (var j = 6; j < Math.min(11, rows.length); j++) {
+                    var rowData = rows[j];
+                    var cells = rowData.split(",");
+                    cells.pop();
+                    var formattedPrice = parseFloat(cells[4]).toLocaleString('en-KE', { style: 'currency', currency: 'KES' });
+        
+                    var propertyHtml = `
+                      <div class="grids4-info col-lg-4 col-md-6 mt-5">
+                        <a href="#"><img src="${cells[0]}" class="img-fluid" alt=""></a>
+                        <ul class="location-top">
+                          <li class="sale">${cells[1].toLowerCase()}</li>
+                          <li class="open-1">${cells[2]}</li>
+                        </ul>
+                        <div class="info-bg">
+                          <h5><a href="#">${cells[3]}</a></h5>
+                          <p>${formattedPrice}</p>
+                          <ul>
+                            <li><span class="fa fa-bed"></span> ${cells[5]} Beds</li>
+                            <li><span class="fa fa-bath"></span> ${cells[6]} Baths</li>
+                            <li><span class="fa fa-share-square-o"></span> ${cells[7]} sq ft</li>
+                          </ul>
+                        </div>
+                      </div>
+                    `;
+                    $('#propertiesForSale').append(propertyHtml);
+                  }
+        
+                  // Hide the View More button if all properties are displayed
+                  if (j >= rows.length - 1) {
+                    $('#viewMoreBtn').hide();
+                  }
+                });
+              }
             },
             error: function (err) {
               console.log(err.status);
             }
           });
         </script>
+        
         
         
         
